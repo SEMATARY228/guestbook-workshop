@@ -2,15 +2,16 @@ from contextlib import asynccontextmanager
 
 import psycopg
 from fastapi import FastAPI
+from dotenv import load_dotenv
 from pydantic import BaseModel
+from config import settings
 
-# ⚠️ Пока всё зашито прямо в код — это и предстоит исправить.
-DATABASE_URL = "postgresql://guestbook:supersecret123@localhost:5432/guestbook"
-GREETING = "Добро пожаловать в гостевую книгу!"
+load_dotenv()
 
 
 def connect():
-    return psycopg.connect(DATABASE_URL)
+    database_url = settings.database_url
+    return psycopg.connect(database_url)
 
 
 @asynccontextmanager
@@ -33,7 +34,8 @@ class Message(BaseModel):
 
 @app.get("/")
 def index():
-    return {"message": GREETING}
+    greeting = settings.greeting
+    return {"message": greeting}
 
 
 @app.get("/health")
