@@ -2,10 +2,10 @@ name: CI
 
 on: 
   push:
-  pull request:
+  pull_request:
 jobs:
   check:
-    runc-on: ubuntu-latest
+    runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v5
       - name: Установить uv
